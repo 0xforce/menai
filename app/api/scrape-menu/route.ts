@@ -965,6 +965,7 @@ export async function POST(req: Request) {
     step("parsed_url", { latitude, longitude, fast, maxItems, timeoutMs });
     updateJob(jobId, { message: 'launching', stage: 'navigating', meta: { url, fast, maxItems, timeoutMs } });
 
+    let browser: Browser | null = null;
     browser = await launchChromium();
     const contextArgs: Parameters<typeof browser.newContext>[0] = {
       viewport: { width: 1280, height: 900 },
@@ -1145,7 +1146,7 @@ export async function POST(req: Request) {
     } catch {}
     return NextResponse.json({ error: message, debug: { jobId } }, { status: 500 });
   } finally {
-    try { await browser?.close(); } catch {}
+    try { await (browser as any)?.close(); } catch {}
   }
 }
 
