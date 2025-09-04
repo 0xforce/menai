@@ -1,4 +1,4 @@
-import { Page } from "playwright";
+import type { Page } from "playwright-core";
 
 export async function fetchItemDetailV1(page: Page, args: { storeUuid: string; itemUuid: string; sectionUuid: string; subsectionUuid: string }): Promise<any> {
   console.log(`fetchItemDetailV1 called with:`, {

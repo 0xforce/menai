@@ -1,4 +1,4 @@
-import { Page } from "playwright";
+import type { Page } from "playwright-core";
 
 export async function autoscrollAll(page: Page, pauseMs = 250, maxPasses = 50): Promise<void> {
   console.log('Starting autoscroll with max passes:', maxPasses);
