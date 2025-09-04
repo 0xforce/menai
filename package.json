@@ -11,8 +11,8 @@
     "googleapis": "^159.0.0",
     "lz-string": "^1.5.0",
     "next": "15.5.0",
-    "playwright-aws-lambda": "^0.11.0",
-    "playwright-core": "^1.55.0",
+    "playwright-aws-lambda": "^0.10.0",
+    "playwright-core": "^1.45.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

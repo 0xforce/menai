@@ -12,26 +12,17 @@ const isServerless =
 
 export async function launchChromium(): Promise<Browser> {
   if (isServerless) {
-    // Dynamic import so it works whether the package is CJS or ESM.
+    // Dynamic import handles CJS/ESM variations on vercel
     const mod: any = await import('playwright-aws-lambda');
 
-    // Support both APIs:
-    // 1) mod.launchChromium()  OR
-    // 2) mod.chromium.{executablePath,args}
+    // Prefer the newer helper if available:
     if (typeof mod.launchChromium === 'function') {
-      // Easiest path if available
-      return await mod.launchChromium({
-        headless: true,
-        // You can pass userDataDir, defaultViewport, etc. if you want
-      });
+      return await mod.launchChromium({ headless: true });
     }
 
     const awsChromium = mod.chromium || mod.default?.chromium;
     if (!awsChromium) {
-      throw new Error(
-        'playwright-aws-lambda did not export chromium helpers. ' +
-        'Check that the package is installed and not tree-shaken.'
-      );
+      throw new Error('playwright-aws-lambda export missing `chromium`/`launchChromium`');
     }
 
     const executablePath = await awsChromium.executablePath();
@@ -43,6 +34,6 @@ export async function launchChromium(): Promise<Browser> {
     });
   }
 
-  // Local dev: use regular Playwright (ensure `npx playwright install` has run)
+  // Local: standard Playwright (ensure you've run `npx playwright install`)
   return await playwright.chromium.launch({ headless: true });
 }

@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    serverComponentsExternalPackages: [
+      "playwright-core",
+      "playwright-aws-lambda",
+    ],
+  },
 };
 
 export default nextConfig;

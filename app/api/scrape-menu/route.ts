@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Browser } from "playwright-core";
+import type { Browser } from "playwright-core";
 import { launchChromium } from '@/app/api/scrape-menu/launch';
 import { parseLatLngFromUrl, extractUuidsFromHref } from "@/app/api/scrape-menu/parsing";
 import { autoscrollAll, extractCategoryName, acceptCookiesIfPresent, waitForAnySelector } from "@/app/api/scrape-menu/dom";
