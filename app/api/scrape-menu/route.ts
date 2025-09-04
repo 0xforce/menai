@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import type { Browser } from "playwright-core";
-import { launchChromium } from '@/app/api/scrape-menu/launch';
+import { Browser, chromium } from "playwright";
 import { parseLatLngFromUrl, extractUuidsFromHref } from "@/app/api/scrape-menu/parsing";
 import { autoscrollAll, extractCategoryName, acceptCookiesIfPresent, waitForAnySelector } from "@/app/api/scrape-menu/dom";
 import { normalizeScrapedToMenuData } from "@/app/api/scrape-menu/normalize";
@@ -965,8 +964,7 @@ export async function POST(req: Request) {
     step("parsed_url", { latitude, longitude, fast, maxItems, timeoutMs });
     updateJob(jobId, { message: 'launching', stage: 'navigating', meta: { url, fast, maxItems, timeoutMs } });
 
-    let browser: Browser | null = null;
-    browser = await launchChromium();
+    browser = await chromium.launch({ headless: true });
     const contextArgs: Parameters<typeof browser.newContext>[0] = {
       viewport: { width: 1280, height: 900 },
       userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
